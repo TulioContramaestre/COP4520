@@ -10,35 +10,46 @@ public class Assignment1
         long startTime = System.nanoTime();
 
         ArrayList<Integer> primes = new ArrayList<>();
+        long sumAllPrimes = 0;
+
+        System.out.println(isPrime(99999));
 
         for (int i = 0; i < (Math.pow(10, 5)); i++)
         {
             if (isPrime(i))
             {
                 primes.add(i);
+                sumAllPrimes += i;
             }
+        }
+        int length = primes.size();
+        System.out.println("Top ten maximum primes: ");
+        for (int i = length - 10; i < length; i++)
+        {
+            System.out.println(primes.get(i));
         }
 
         long endTime = System.nanoTime();
         long totalTime = (endTime - startTime);
         double totalTimeSec  = (double)totalTime / 1000000000.0;
-        System.out.println(primes);
+        // System.out.println(primes);
         System.out.println("Execution time: " + (totalTimeSec) + " seconds");
+        System.out.println("total number of primes: " + primes.size());
+        System.out.println("sum of all primes found: " + sumAllPrimes);
+
     }
 
     public static boolean isPrime(int num)
     {
         if ( num > 2 && num % 2 == 0 ) {
-            // System.out.println(num + " is not prime");
             return false;
         }
 
-        for (int i = 3; i < Math.sqrt(num); i++)
+        for (int i = 3; i <= (int)Math.sqrt(num); i++)
         {
-            if (i % num == 0)
+            if (num % i == 0)
                 return false;
-        } 
-        // System.out.println(num + "is prime");
+        }
         return true;
     }
           
