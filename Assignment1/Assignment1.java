@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.*;
 public class Assignment1 
 {
     private static Counter count = new Counter(2);
+    // private static AtomicInteger count = new AtomicInteger(2);
     private static AtomicLong sumAllPrimes = new AtomicLong(0);
     private static List<Integer> syncprimes = Collections.synchronizedList(new ArrayList<>());
     public static void main(String args[])
@@ -35,12 +36,17 @@ public class Assignment1
             
         // }
 
+        Collections.sort(syncprimes);
         int length = syncprimes.size();
         System.out.println("Top ten maximum primes: ");
         for (int i = length - 10; i < length; i++)
         {
+    
             System.out.println(syncprimes.get(i));
+            
         }
+
+        
 
         long endTime = System.nanoTime();
         long totalTime = (endTime - startTime);
@@ -58,7 +64,7 @@ public class Assignment1
             return false;
         }
 
-        for (int i = 3; i <= (int)Math.sqrt(num); i+= 2 )
+        for (int i = 3; i <= (int)Math.sqrt(num); i++)
         {
             if (num % i == 0)
                 return false;
@@ -79,7 +85,9 @@ public class Assignment1
             { 
                 if (isPrime(counter))
                 {
+
                     syncprimes.add(counter);
+            
                     sumAllPrimes.getAndAdd(counter);
                 }
                 counter = count.getAndIncrement();
