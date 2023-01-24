@@ -2,46 +2,39 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.*;
 
 public class Assignment1 
 {
-    private static Counter count = new Counter(1);
-    private static Counter sumAllPrimes = new Counter(0);
+    private static Counter count = new Counter(2);
+    private static AtomicLong sumAllPrimes = new AtomicLong(0);
     private static List<Integer> syncprimes = Collections.synchronizedList(new ArrayList<>());
     public static void main(String args[])
     {
         long startTime = System.nanoTime();
         int threadCount = 8;
-        // ArrayList<Integer> primes = new ArrayList<>();
-        // long sumAllPrimes = 0;
-        double max = Math.pow(10,8);
 
-        MyRunnables runnable1 = new MyRunnables();
         ExecutorService pool = Executors.newFixedThreadPool(threadCount);
-        for (int i = 2; i < max; i++)
+        for (int i = 0; i < threadCount; i++)
         {
-            pool.execute(runnable1);
+            pool.execute(new MyRunnables());
         }
         pool.shutdown();
-        try {
 
-            pool.awaitTermination(1, TimeUnit.NANOSECONDS);
-        }
-        catch(Exception e)
+        while(!pool.isTerminated())
         {
-            
+
         }
-
-        // }
-
-        // for (int i = 2; i < max; i++)
+        // try 
         // {
-        //     if (isPrime(i))
-        //     {
-        //         primes.add(i);
-        //         sumAllPrimes += i;
-        //     }
+
+        //     pool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         // }
+        // catch(Exception e)
+        // {
+            
+        // }
+
         int length = syncprimes.size();
         System.out.println("Top ten maximum primes: ");
         for (int i = length - 10; i < length; i++)
@@ -65,7 +58,7 @@ public class Assignment1
             return false;
         }
 
-        for (int i = 3; i <= (int)Math.sqrt(num); i++ )
+        for (int i = 3; i <= (int)Math.sqrt(num); i+= 2 )
         {
             if (num % i == 0)
                 return false;
@@ -92,8 +85,6 @@ public class Assignment1
                 counter = count.getAndIncrement();
             }
         }
-
-        
     }
 
     public static class Counter 
@@ -112,12 +103,12 @@ public class Assignment1
             return temp;
         }
 
-        public int get() 
+        public synchronized int get() 
         {
             return value;
         }
 
-        public synchronized int getAndAdd(int add)
+        public synchronized long getAndAdd(long add)
         {
             value += add;
             return value;
