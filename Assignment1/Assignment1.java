@@ -1,4 +1,3 @@
-package COP4520.Assingment1;
 import java.util.*;
 
 public class Assignment1 
