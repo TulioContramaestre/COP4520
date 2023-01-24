@@ -9,9 +9,7 @@ public class Assignment1
         ArrayList<Integer> primes = new ArrayList<>();
         long sumAllPrimes = 0;
 
-        System.out.println(isPrime(99999));
-
-        for (int i = 0; i < (Math.pow(10, 6)); i++)
+        for (int i = 2; i < (Math.pow(10, 8)); i++)
         {
             if (isPrime(i))
             {
@@ -42,7 +40,7 @@ public class Assignment1
             return false;
         }
 
-        for (int i = 3; i <= (int)Math.sqrt(num); i++)
+        for (int i = 3; i <= (int)Math.sqrt(num); i++ )
         {
             if (num % i == 0)
                 return false;
