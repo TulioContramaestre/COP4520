@@ -5,11 +5,16 @@ public class Assignment1
     public static void main(String args[])
     {
         long startTime = System.nanoTime();
+        int threadCount = 8;
+        MyRunnables runnable1 = new MyRunnables();
+        Thread thread1 = new Thread(runnable1); 
+        // ExecutorService threads = Executors.newFixedThreadPool(threadCount);
 
         ArrayList<Integer> primes = new ArrayList<>();
         long sumAllPrimes = 0;
+        double max = Math.pow(10,8);
 
-        for (int i = 2; i < (Math.pow(10, 8)); i++)
+        for (int i = 2; i < max; i++)
         {
             if (isPrime(i))
             {
@@ -48,5 +53,48 @@ public class Assignment1
         return true;
     }
           
-    
+    public static class MyRunnables implements Runnable
+    {
+        // AtomicInteger count = new AtomicInteger(2);
+        double max = Math.pow(10,8);
+        @Override
+        public void run()
+        {
+            Counter count = new Counter(1);
+            int counter = count.getAndIncrement();
+            while (counter < max)
+            {
+                if (isPrime(counter))
+                {
+                    primes.add(counter);
+                    sumAllPrimes += i;
+                }
+            }
+        }
+
+        
+    }
+
+    public static class Counter 
+    {
+        // private AtomicInteger Counter = new AtomicInteger(2);
+        private int value;
+        public Counter(int i)
+        {
+            this.value = i;
+        }
+
+        public synchronized int getAndIncrement()
+        {
+            int temp = value;
+            value += 1;
+            return temp;
+        }
+
+        public int get() 
+        {
+            return value;
+        }
+    }
 }
+
