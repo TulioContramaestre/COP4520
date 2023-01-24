@@ -1,4 +1,4 @@
-package COP4520;
+package COP4520.Assingment1;
 import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
