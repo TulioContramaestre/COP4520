@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -6,10 +8,10 @@ import java.util.concurrent.atomic.*;
 
 public class Assignment1 
 {
-    private static Counter count = new Counter(2);
-    // private static AtomicInteger count = new AtomicInteger(2);
+    private static AtomicInteger count = new AtomicInteger(2);
     private static AtomicLong sumAllPrimes = new AtomicLong(0);
     private static List<Integer> syncprimes = Collections.synchronizedList(new ArrayList<>());
+    private static double max = Math.pow(10,8);
     public static void main(String args[])
     {
         long startTime = System.nanoTime();
@@ -22,39 +24,43 @@ public class Assignment1
         }
         pool.shutdown();
 
-        while(!pool.isTerminated())
+        try 
         {
 
+            pool.awaitTermination(50, TimeUnit.SECONDS);
         }
-        // try 
-        // {
-
-        //     pool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        // }
-        // catch(Exception e)
-        // {
-            
-        // }
-
-        Collections.sort(syncprimes);
-        int length = syncprimes.size();
-        System.out.println("Top ten maximum primes: ");
-        for (int i = length - 10; i < length; i++)
+        catch(Exception e)
         {
-    
-            System.out.println(syncprimes.get(i));
             
         }
-
         
-
         long endTime = System.nanoTime();
         long totalTime = (endTime - startTime);
         double totalTimeSec  = (double)totalTime / 1000000000.0;
-        // System.out.println(primes);
+
+        Collections.sort(syncprimes);
+        int length = syncprimes.size();
+        List<Integer> primes10 = new ArrayList<>();
+        for (int i = length - 10; i < length; i++)
+        {
+            primes10.add(syncprimes.get(i));
+        }
         System.out.println("Execution time: " + (totalTimeSec) + " seconds");
         System.out.println("total number of primes: " + syncprimes.size());
         System.out.println("sum of all primes found: " + sumAllPrimes.get());
+        System.out.println("Top10 primes: " + primes10);
+
+        try
+        {
+            FileWriter file = new FileWriter(new File("primes.txt"));
+            file.write("Execution time: " + totalTimeSec + " seconds" +  "\n" + "Total number of primes: " + syncprimes.size());
+            file.write("\n" + "Sum of all primes found: " + sumAllPrimes.get() + "\n" + "Top ten maximum primes: " + primes10);
+            file.flush();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -74,12 +80,9 @@ public class Assignment1
           
     public static class MyRunnables implements Runnable
     {
-        // AtomicInteger count = new AtomicInteger(2);
-        double max = Math.pow(10,8);
         @Override
         public void run()
         {
-            // int counter = 2;
             int counter = count.getAndIncrement();
             while (counter < max)
             { 
@@ -97,7 +100,6 @@ public class Assignment1
 
     public static class Counter 
     {
-        // private AtomicInteger Counter = new AtomicInteger(2);
         private int value;
         public Counter(int i)
         {
