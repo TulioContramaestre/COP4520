@@ -14,6 +14,7 @@ public class Assignment1
     private static double max = Math.pow(10,8);
     public static void main(String args[])
     {
+        // start elapsed time
         long startTime = System.nanoTime();
         int threadCount = 8;
 
@@ -33,6 +34,7 @@ public class Assignment1
             
         }
         
+        // threads end end elapsed time
         long endTime = System.nanoTime();
         long totalTime = (endTime - startTime);
         double totalTimeSec  = (double)totalTime / 1000000000.0;
@@ -40,6 +42,8 @@ public class Assignment1
         Collections.sort(syncprimes);
         int length = syncprimes.size();
         List<Integer> primes10 = new ArrayList<>();
+        
+        // find top 10 largest primes
         for (int i = length - 10; i < length; i++)
         {
             primes10.add(syncprimes.get(i));
@@ -79,7 +83,9 @@ public class Assignment1
         for (int i = 3; i <= (int)Math.sqrt(num); i += 2)
         {
             if (num % i == 0)
+            {
                 return false;
+            }
         }
         return true;
     }
@@ -94,9 +100,7 @@ public class Assignment1
             { 
                 if (isPrime(counter))
                 {
-
                     syncprimes.add(counter);
-            
                     sumAllPrimes.getAndAdd(counter);
                 }
                 counter = count.getAndIncrement();
