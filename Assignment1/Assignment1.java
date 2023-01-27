@@ -59,6 +59,7 @@ public class Assignment1
             file.write("Execution time: " + totalTimeSec + " seconds" +  "\n" + "Total number of primes: " + syncprimes.size());
             file.write("\n" + "Sum of all primes found: " + sumAllPrimes.get() + "\n" + "Top ten maximum primes: " + primes10);
             file.flush();
+            file.close();
         }
         catch (Exception e)
         {
