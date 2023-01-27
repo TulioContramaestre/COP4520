@@ -1,5 +1,6 @@
 # COP4520 HW 1
 check for primes from 1 - 10^8
+
 running the program on i7-11700k
 
 ## Overview
