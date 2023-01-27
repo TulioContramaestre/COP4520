@@ -13,3 +13,4 @@ The repository contains an Assignment.java that finds all the primes from 1 - 10
 6. The results and runtime in seconds will be displayed in this primes.txt
 
 ## Experimental evaluation
+For this assignment I first started with a simple iterative solution without the use of multithreading to see the time that it would take in comparison. With a very generic and simple implementation, I was able to find and perform all operations on the primes in around 60s for 1 - 10^8. This implementation is very innefficient and it can be further improved. This can be done implementing threads, the use of 8 threads improves the the runtime from around 60s to around 17s. This implementation of 8 threads running concurrently helps to significantly improve performance. However this can be further improved. 
