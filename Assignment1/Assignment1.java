@@ -26,7 +26,6 @@ public class Assignment1
 
         try 
         {
-
             pool.awaitTermination(50, TimeUnit.SECONDS);
         }
         catch(Exception e)
@@ -64,13 +63,20 @@ public class Assignment1
 
     }
 
+    // isPrime function that skips over all even numbers
     public static boolean isPrime(int num)
     {
-        if ( num > 2 && num % 2 == 0 ) {
+        if (num == 2)
+        {
+            return true; 
+        }
+        
+        if (num % 2 == 0 ) 
+        {
             return false;
         }
 
-        for (int i = 3; i <= (int)Math.sqrt(num); i++)
+        for (int i = 3; i <= (int)Math.sqrt(num); i += 2)
         {
             if (num % i == 0)
                 return false;
