@@ -21,7 +21,7 @@ public class Problem1
 
         for (int i = 0; i < numbGuest; i++)
         {
-            pool.submit(new labyrinth());
+            pool.execute(new labyrinth());
         }
         pool.shutdown();
 
