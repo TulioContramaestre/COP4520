@@ -64,44 +64,50 @@ public class Problem1
             {
                 lock.lock();
 
-                if (randomGuest == current && leader)
+                try
                 {
-                    if(!cupcake.get())
+                    if (randomGuest == current && leader)
                     {
-                        count++;
-                        cupcake.set(true);
-
-                        if (count == numbGuest)
+                        if(!cupcake.get())
                         {
-                            finished.set(true);
+                            count++;
+                            cupcake.set(true);
+    
+                            if (count == numbGuest)
+                            {
+                                finished.set(true);
+                            }
                         }
                     }
-                }
-                
-                if (randomGuest == current && !leader)
-                {
-                    if (cupcake.get() && ate == false)
+                    
+                    if (randomGuest == current && !leader)
                     {
-                        cupcake.set(false);
-                        ate = true;
-                        // System.out.println("ate");
-                        // try{
-        
-                        //     Thread.sleep(1);
-                        // }
-                        // catch (Exception e)
-                        // {
-        
-                        // }
-
-                        // Thread.yield();
+                        if (cupcake.get() && ate == false)
+                        {
+                            cupcake.set(false);
+                            ate = true;
+                            // System.out.println("ate");
+                            // try{
+            
+                            //     Thread.sleep(1);
+                            // }
+                            // catch (Exception e)
+                            // {
+            
+                            // }
+    
+                            // Thread.yield();
+                        }
                     }
                     
-                }
-                
-                randomGuest = (int)(Math.random() * numbGuest);
+                    randomGuest = (int)(Math.random() * numbGuest);
 
-                lock.unlock();
+                }finally
+                {
+                    lock.unlock();
+
+                }
+
                 
             }
 
