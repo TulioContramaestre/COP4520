@@ -13,7 +13,7 @@ public class Problem1
     public static int numbGuest = 100;
     public static int randomGuest = (int)(Math.random() * numbGuest);
     public static Lock lock = new ReentrantLock();
-    
+    public static labyrinth[] guests = new labyrinth[numbGuest];    
     public static void main(String args[])
     {
         long startTime = System.nanoTime();
@@ -21,7 +21,14 @@ public class Problem1
 
         for (int i = 0; i < numbGuest; i++)
         {
-            pool.execute(new labyrinth());
+            guests[i] = new labyrinth();
+        }
+
+        while(!finished.get())
+        {
+            pool.execute(guests[randomGuest]);
+
+            randomGuest = (int)(Math.random() * numbGuest);
         }
         pool.shutdown();
 
@@ -46,72 +53,56 @@ public class Problem1
     
     public static class labyrinth implements Runnable
     {
+        private int current;
+        private boolean leader =false;
+        private int count  = 1;
+        private boolean ate = false;
+
+
+        public labyrinth()
+        {
+            this.current = counter.getAndIncrement();
+            if (current == 0)
+            {
+                this.leader = true;
+            }
+        }
+
         @Override
         public void run()
         {
-            // setting the guy that is going to count to index 0
-            int current = counter.getAndIncrement();
-            boolean leader = false;
-            int count  = 1;
-            boolean ate = false;
-
-            if (current == 0)
+            lock.lock();
+            
+            try
             {
-                leader = true;
-            }
-
-            while (!finished.get())
-            {
-                lock.lock();
-
-                try
+                if (randomGuest == current && leader)
                 {
-                    if (randomGuest == current && leader)
+                    if(!cupcake.get())
                     {
-                        if(!cupcake.get())
+                        count++;
+                        cupcake.set(true);
+
+                        if (count == numbGuest)
                         {
-                            count++;
-                            cupcake.set(true);
-    
-                            if (count == numbGuest)
-                            {
-                                finished.set(true);
-                            }
+                            finished.set(true);
                         }
                     }
-                    
-                    if (randomGuest == current && !leader)
-                    {
-                        if (cupcake.get() && ate == false)
-                        {
-                            cupcake.set(false);
-                            ate = true;
-                            // System.out.println("ate");
-                            // try{
-            
-                            //     Thread.sleep(1);
-                            // }
-                            // catch (Exception e)
-                            // {
-            
-                            // }
-    
-                            // Thread.yield();
-                        }
-                    }
-                    
-                    randomGuest = (int)(Math.random() * numbGuest);
-
-                }finally
+                }
+                
+                if (randomGuest == current && !leader)
                 {
-                    lock.unlock();
-
+                    if (cupcake.get() && ate == false)
+                    {
+                        cupcake.set(false);
+                        ate = true;
+                    }
                 }
 
-                
+            }finally
+            {
+                lock.unlock();
+
             }
-
-
         }
     }
 }

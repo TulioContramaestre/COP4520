@@ -41,4 +41,5 @@ public class Problem2
         double totalTimeSec  = (double)totalTime / 1000000000.0;
 
         System.out.println(totalTimeSec + " s");
+    }
 }
