@@ -36,6 +36,8 @@ public class Problem1
             
         }
 
+        System.out.println("All guests have visited");
+
         long endTime = System.nanoTime();
         long totalTime = (endTime - startTime);
         double totalTimeSec  = (double)totalTime / 1000000000.0;
@@ -74,7 +76,6 @@ public class Problem1
                         if (count == numbGuest)
                         {
                             finished.set(true);
-                            System.out.println("All guests have visited");
                         }
                     }
                 }
@@ -88,6 +89,7 @@ public class Problem1
                     }
 
                 }
+
                 randomGuest = (int)(Math.random() * numbGuest);
 
                 lock.unlock();
