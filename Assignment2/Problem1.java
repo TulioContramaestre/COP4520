@@ -1,11 +1,9 @@
-import java.io.File;
-import java.io.FileWriter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.*;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.*;
 
 public class Problem1
 {
@@ -14,7 +12,7 @@ public class Problem1
     public static AtomicBoolean finished = new AtomicBoolean(false);
     public static int numbGuest = 100;
     public static int randomGuest = (int)(Math.random() * numbGuest);
-    public static ReentrantLock lock = new ReentrantLock();
+    public static Lock lock = new ReentrantLock();
     
     public static void main(String args[])
     {
@@ -86,10 +84,21 @@ public class Problem1
                     {
                         cupcake.set(false);
                         ate = true;
+                        // System.out.println("ate");
+                        // try{
+        
+                        //     Thread.sleep(1);
+                        // }
+                        // catch (Exception e)
+                        // {
+        
+                        // }
+
+                        // Thread.yield();
                     }
-
+                    
                 }
-
+                
                 randomGuest = (int)(Math.random() * numbGuest);
 
                 lock.unlock();
