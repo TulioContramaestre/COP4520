@@ -1,4 +1,4 @@
-package Assignment2;
+// package Assignment2;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.*;
@@ -10,5 +10,8 @@ import java.util.concurrent.atomic.*;
 
 public class Assignment2 
 {
-    
+    public static void main(String args[])
+    {
+
+    }
 }
