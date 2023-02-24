@@ -92,7 +92,7 @@ public class Problem2
                         {
     
                         }
-                        // after spending some time viewing the gues leaves the room and notifies the next person in line that they are able to go inside
+                        // after spending some time viewing the guest leaves the room and notifies the next person in line that they are able to go inside
 
                         // System.out.println("Guest " + viewer + " is currently leaving");
                         available.set(true);
