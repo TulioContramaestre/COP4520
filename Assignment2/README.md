@@ -34,7 +34,7 @@ Strategy 3: This is the strategy that I chose to implement since it seems to be 
 
 ### Implementation
 
-As stated previously I used Strategy 3 to manage all the guest and their viewwing of the vase. To setup the que I used a ConcurrentLinkedQue to be able to implement a thread safe FIFO que. ontop of all the guest being in the que and being able to view the vase, there is also a slight chance that after viewing the vase they want to view it again if that is the case they would go to the back of the que and wait until everyone else has viewed it before they can view once more. The program ends after all guest have viewed the vase and the que is empty. 
+As stated previously I used Strategy 3 to manage all the guest and their viewwing of the vase. To setup the que I used a ConcurrentLinkedQue to be able to implement a thread safe FIFO que. ontop of all the guest being in the que and being able to view the vase, there is also a 15% chance that after viewing the vase they want to view it again if that is the case they would go to the back of the queue and wait until everyone else has viewed it before they can view once more. The program ends after all guest have viewed the vase and the que is empty. 
 
 ### Efficiency
  
