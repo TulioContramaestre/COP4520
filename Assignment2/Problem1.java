@@ -11,7 +11,8 @@ public class Problem1
     public static AtomicBoolean cupcake = new AtomicBoolean(true);
     public static AtomicBoolean finished = new AtomicBoolean(false);
     public static int numbGuest = 100;
-    public static int randomGuest = (int)(Math.random() * numbGuest);
+    public static Random random = new Random();
+    public static int randomGuest;
     public static Lock lock = new ReentrantLock();
     public static labyrinth[] guests = new labyrinth[numbGuest];    
     public static void main(String args[])
@@ -26,10 +27,11 @@ public class Problem1
 
         while(!finished.get())
         {
+            randomGuest = random.nextInt(numbGuest);
             pool.execute(guests[randomGuest]);
 
-            randomGuest = (int)(Math.random() * numbGuest);
         }
+
         pool.shutdown();
 
         try 
@@ -71,6 +73,7 @@ public class Problem1
         @Override
         public void run()
         {
+            // System.out.println(Thread.currentThread().getName());
             lock.lock();
             
             try
@@ -80,6 +83,7 @@ public class Problem1
                     if(!cupcake.get())
                     {
                         count++;
+                        // System.out.println(count);
                         cupcake.set(true);
 
                         if (count == numbGuest)
@@ -101,7 +105,6 @@ public class Problem1
             }finally
             {
                 lock.unlock();
-
             }
         }
     }
