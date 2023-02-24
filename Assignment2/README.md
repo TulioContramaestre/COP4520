@@ -32,6 +32,10 @@ Strategy 2: This strategy might be a good strategy since it prevents a large qua
 
 Strategy 3: This is the strategy that I chose to implement since it seems to be the safest and most efficient method. This method would allow every guest to view the vace atleast once and prevent a single guest from viewing it multiple times back to back. However this method would prevent the guest from viewing anything else in the castle since they would have to stay in the que until it is their turn if not they would not view it.
 
-### Implimantation
+### Implementation
 
 As stated previously I used Strategy 3 to manage all the guest and their viewwing of the vase. To setup the que I used a ConcurrentLinkedQue to be able to implement a thread safe FIFO que. ontop of all the guest being in the que and being able to view the vase, there is also a slight chance that after viewing the vase they want to view it again if that is the case they would go to the back of the que and wait until everyone else has viewed it before they can view once more. The program ends after all guest have viewed the vase and the que is empty. 
+
+### Efficiency
+ 
+After performing this and using the ConcurrentLinkedQue along with a reentrant lock I was able to get a runtime of aroun 1.8 seconds this includes a artificial wait time of around 50ms per visit to the vase. After performing these operations I still believe that Strategy 3 is the fastest out of all the methods since it guarantees quick and safe access to the room by all threads. Ontop of having the ability of threads/guest being able to view it again without iterfering with other guest since they have to go to back of the queue if they want to see it again.
