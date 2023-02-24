@@ -25,15 +25,11 @@ public class Problem2
         long startTime = System.nanoTime();
         ExecutorService pool = Executors.newFixedThreadPool(numbGuest);
 
-        // for (int i = 0; i < numbGuest; i++)
-        // {
-        //     showroom[i] = new showroom();
-        // }
-
         for (int i = 0; i < numbGuest; i++)
         {
             pool.execute(new showroom());
         }
+
         pool.shutdown();
 
         try 
@@ -60,13 +56,6 @@ public class Problem2
         int guestNum;
         boolean inQue;
 
-        // public showroom()
-        // {
-        //     this.guestNum = counter.getAndIncrement();
-        //     que.offer(guestNum);
-        //     this.inQue = true;
-        // }
-
         @Override
         public void run()
         {
@@ -77,32 +66,40 @@ public class Problem2
 
             while(!finished.get())
             {
-                lock.lock();
-                
+                // prevents the current thread to locking up and not letting any other thread perform operations
                 try
                 {
-                    // System.out.println(Thread.currentThread().getName());
+                    Thread.sleep(1);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+                lock.lock();
+                try
+                {
                     if (que.peek() != null && available.get())
                     {
                         viewer.set(que.poll());
                         available.set(false);
-                        System.out.println("current viewer is : " + viewer);
+                        // System.out.println("Guest " + viewer + " is currently viewing");
                         try
                         {
-                            // TimeUnit.MILLISECONDS.sleep(150);
-                            // Thread.yield();
-                            Thread.sleep(50);
+                            Thread.sleep(10);
                         }
                         catch (Exception e)
                         {
     
                         }
                         // after spending some time viewing the gues leaves the room and notifies the next person in line that they are able to go inside
+
+                        // System.out.println("Guest " + viewer + " is currently leaving");
                         available.set(true);
     
                         if (random.nextInt(100) < 15)
                         {
-                            System.out.println("viewer: " + viewer + " wansts to view again");
+                            // System.out.println("viewer: " + viewer + " wansts to view again");
                             que.offer(viewer.get());
                         }
                     }

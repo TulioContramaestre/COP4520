@@ -73,7 +73,6 @@ public class Problem1
         @Override
         public void run()
         {
-            // System.out.println(Thread.currentThread().getName());
             lock.lock();
             
             try
@@ -102,7 +101,8 @@ public class Problem1
                     }
                 }
 
-            }finally
+            }
+            finally
             {
                 lock.unlock();
             }
