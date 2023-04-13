@@ -1,11 +1,8 @@
-import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.*;
-import java.util.Random;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Problem1 
 {
@@ -83,25 +80,40 @@ public class Problem1
 
                 if (task == 1)
                 {
-                    present = bag.get(bagNum.getAndIncrement());
-                    chain.add(present);
+                    try
+                    {
+                        present = bag.get(bagNum.getAndIncrement());
+                        // System.out.println("present added to the chain: " + present);
+                        chain.add(present);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                 }
                 else if(task == 2 && bagNum.get() > 0)
                 {
-                    card = bag.get(cardsComplete.getAndIncrement());
-                    chain.remove(card);
+                    try
+                    {
+                        card = bag.get(cardsComplete.getAndIncrement());
+                        // System.out.println("present removed to the chain: " + present);
+                        chain.remove(card);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                 }
                 else
                 {
                     randPresent = (int)(Math.random() * 500000 + 1);
-                    
-                    if (chain.contains(randPresent))
+                    // System.out.println(chain.contains(randPresent));
+                    try 
                     {
-                        System.out.println("chain contains the random present: " + randPresent);
+                        chain.contains(randPresent);
                     }
-                    else
+                    catch (Exception e)
                     {
-                        System.out.println("chain does not contain the random present: " + randPresent);
                     }
                 }
             }
@@ -125,21 +137,21 @@ public class Problem1
     // take from "The art of Multiprocessor programming"
     public static class LockfreeList
     {
-        Node head = new Node(-1);
+        Node head = new Node(Integer.MAX_VALUE);
         
         public LockfreeList()
         {
-            head.next = new AtomicMarkableReference<Node>(new Node (-1), false);
+            this.head.next = new AtomicMarkableReference<Node>(new Node(-1), false);
         }
 
         public boolean add(int value)
         {
             while (true)
             {
-                Window window = Window.find(head, value);
+                Window window = find(head, value);
                 Node pred = window.pred;
                 Node curr = window.curr;
-
+                
                 if (curr.value == value)
                 {
                     return false;
@@ -148,7 +160,6 @@ public class Problem1
                 {
                     Node node = new Node(value);
                     node.next = new AtomicMarkableReference<Node>(curr, false);
-
                     if (pred.next.compareAndSet(curr, node, false, false))
                     {
                         return true;
@@ -164,7 +175,7 @@ public class Problem1
 
             while (true)
             {
-                Window window = Window.find(head, value);
+                Window window = find(head, value);
                 Node pred = window.pred;
                 Node curr = window.curr;
 
@@ -200,33 +211,20 @@ public class Problem1
 
             return (curr.value == value && !marked[0]);
         }
-    }
 
-    // taken from "the art of Multiprocessor programming"
-    public static class Window
-    {
-        public Node pred;
-        public Node curr;
-
-        Window(Node pred, Node curr)
-        {
-            this.pred = pred;
-            this.curr = curr;
-        }
-
-        public static Window find(Node head, int key)
+        public Window find(Node head, int key)
         {
             Node pred = null;
             Node curr = null;
             Node succ = null;
             boolean[] marked = {false};
             Boolean snip;
-
+        
             retry: while(true)
             {
                 pred = head;
                 curr = pred.next.getReference();
-
+        
                 while(true)
                 {
                     succ = curr.next.get(marked);
@@ -241,7 +239,7 @@ public class Problem1
                         curr = succ;
                         succ = curr.next.get(marked);
                     }
-
+        
                     if (curr.value >= key)
                     {
                         return new Window(pred, curr);
@@ -250,10 +248,22 @@ public class Problem1
                     curr = succ;
                 }
             }
-
+        
         }
     }
-
     
-
+    // taken from "the art of Multiprocessor programming"
+    public static class Window
+    {
+        public Node pred;
+        public Node curr;
+    
+        Window(Node pred, Node curr)
+        {
+            this.pred = pred;
+            this.curr = curr;
+        }
+    
+    }
+    
 }
