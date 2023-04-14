@@ -3,6 +3,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.*;
+import java.util.Random;
+
 
 public class Problem1 
 {
@@ -11,7 +13,8 @@ public class Problem1
     public static AtomicBoolean finished = new AtomicBoolean(false);
     public static LockfreeList chain = new LockfreeList();
     public static int threadCount = 4;
-    public static MyRunnables[] workers = new MyRunnables[4];    
+    public static MyRunnables[] workers = new MyRunnables[4];
+    public static Random random = new Random();
     public static void main(String args[])
     {
         int numGifts = 500000;
@@ -76,7 +79,7 @@ public class Problem1
 
             while(cardsComplete.get() < bag.size())
             {
-                task = (int)Math.floor(Math.random() * (3 - 1 + 1) + 1);
+                task = random.nextInt(3) + 1;
 
                 if (task == 1)
                 {
@@ -107,9 +110,9 @@ public class Problem1
                 else
                 {
                     randPresent = (int)(Math.random() * 500000 + 1);
-                    // System.out.println(chain.contains(randPresent));
                     try 
                     {
+                        // System.out.println(chain.contains(randPresent));
                         chain.contains(randPresent);
                     }
                     catch (Exception e)
