@@ -22,7 +22,10 @@ The first method I tried the LazyList wasn't as efficient as the current one I a
 3. Compile the program through the terminal using "javac Problem2.java"
 4. To run the program do "java Problem2"
 
+To change the amount of hours to collect the data, change the integer value named hours on line 20.
+
 ### Implementation
+
 
 
 ### Efficiency

@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,11 +13,11 @@ public class Problem2
     public static AtomicBoolean finished = new AtomicBoolean(false);
     public static int[][] data = new int[60][8];
     public static int numSensors = 8;
-    public static sensorController[] sensors;
+    public static sensorController[] sensors= new sensorController[8];
     public static Random rand = new Random();
     public static void main(String args[])
     {
-        int hours = 2;
+        int hours = 5;
 
         long startTime = System.nanoTime();
         ExecutorService pool = Executors.newFixedThreadPool(numSensors);
@@ -31,6 +32,7 @@ public class Problem2
             pool.execute(sensors[i]);
         }
 
+        System.out.println("Data for " + hours + " hours: ");
         for (int time = 0; time < hours; time++)
         {
 
@@ -38,20 +40,28 @@ public class Problem2
             {
                 try
                 {
-                    Thread.sleep(10);
+                    // each data collection stage takes 20ms plus calculation times
+                    Thread.sleep(20);
                 }
                 catch (Exception e)
                 {
                 }
 
+                if (minutes.get() == 59)
+                {
+                    break;
+                }
+
                 minutes.incrementAndGet();
+
             }
 
             minutes.set(0);
+            System.out.println("Hour: " + time);
+            maxmin(hours);
         }
 
-        maxmin(hours);
-
+        finished.set(true);
         pool.shutdown();
 
         try 
@@ -64,8 +74,6 @@ public class Problem2
         }
 
         System.out.println("Complete");
-
-        System.out.print("Data for " + hours);
 
 
         long endTime = System.nanoTime();
@@ -84,13 +92,15 @@ public class Problem2
         int tempMin = Integer.MAX_VALUE;
         int tempMax = Integer.MIN_VALUE;
 
+        int distanceDiff = 0;
+
 
         for (int i = 0; i < 60; i++)
         {
             for (int j = 0; j < 8; j++)
             {
                 tempMin = Math.min(tempMin, data[i][j]);
-                tempMax = Math.max(tempMin, data[i][j]);
+                tempMax = Math.max(tempMax, data[i][j]);
             }
 
             tempTop[i] = tempMax;
@@ -103,10 +113,16 @@ public class Problem2
         for (int i = 0; i < 5; i++)
         {
             top5[i] = tempTop[i];
-            bot5[i] = tempBot[60 - i];
+            bot5[i] = tempBot[60 - (i + 1)];
+        }
+
+        for (int i = 0; i < 50; i++)
+        {
+
         }
 
         System.out.println("top5 values: " + Arrays.toString(top5) + " bot5 values: " + Arrays.toString(bot5));
+        System.out.println("Largest temperature difference: " + " between time ");
     }
 
     public static class sensorController implements Runnable
@@ -125,7 +141,9 @@ public class Problem2
             while (!finished.get())
             {
                 reading = rand.nextInt(171) - 100;
+                // System.out.println(reading);
                 data[minutes.get()][sensor] = reading;
+                // System.out.println(data[minutes.get()][sensor]);
             }
         }
     }
