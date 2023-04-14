@@ -41,7 +41,7 @@ public class Problem2
                 try
                 {
                     // each data collection stage takes 20ms plus calculation times
-                    Thread.sleep(20);
+                    Thread.sleep(2);
                 }
                 catch (Exception e)
                 {
@@ -91,6 +91,9 @@ public class Problem2
         int[] bot5 = new int[5];
         int tempMin = Integer.MAX_VALUE;
         int tempMax = Integer.MIN_VALUE;
+        int[] temp1 = new int[10];
+        int[] temp2 = new int[10];
+        int time = 0;
 
         int distanceDiff = 0;
 
@@ -116,13 +119,40 @@ public class Problem2
             bot5[i] = tempBot[60 - (i + 1)];
         }
 
-        for (int i = 0; i < 50; i++)
+        tempMax = Integer.MIN_VALUE;
+        tempMin = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < 50; i += 10)
         {
-
+            
+            temp1 = Arrays.copyOfRange(tempTop, i, i + 10);
+            temp2 = Arrays.copyOfRange(tempBot, i, i + 10);
+            
+            for (int j = 0; j < 10; j++)
+            {
+                if (temp1[j] >= tempMax)
+                {
+                    tempMax = temp1[j];
+                }
+                
+                if (temp2[j] <= tempMin);
+                {
+                    tempMin = temp2[j];
+                }
+                
+            }
+            
+            if (tempMax - tempMin >= distanceDiff)
+            {
+                
+                distanceDiff = tempMax - tempMin;
+                time = i;
+                
+            }
         }
-
+        
         System.out.println("top5 values: " + Arrays.toString(top5) + " bot5 values: " + Arrays.toString(bot5));
-        System.out.println("Largest temperature difference: " + " between time ");
+        System.out.println("Largest temperature difference: " + distanceDiff + " between time " + time + " " + (time + 10));
     }
 
     public static class sensorController implements Runnable
