@@ -1,4 +1,3 @@
-import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -152,7 +151,7 @@ public class Problem2
         }
         
         System.out.println("top5 values: " + Arrays.toString(top5) + " bot5 values: " + Arrays.toString(bot5));
-        System.out.println("Largest temperature difference: " + distanceDiff + " between time " + time + " " + (time + 10));
+        System.out.println("Largest temperature difference: " + distanceDiff + " between time " + time + " " + (time + 10) + "\n");
     }
 
     public static class sensorController implements Runnable
