@@ -40,7 +40,7 @@ public class Problem2
                 try
                 {
                     // each data collection stage takes 20ms plus calculation times
-                    Thread.sleep(2);
+                    Thread.sleep(20);
                 }
                 catch (Exception e)
                 {
@@ -73,7 +73,6 @@ public class Problem2
         }
 
         System.out.println("Complete");
-
 
         long endTime = System.nanoTime();
         long totalTime = (endTime - startTime);

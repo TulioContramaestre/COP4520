@@ -25,11 +25,12 @@ The first method I tried the LazyList wasn't as efficient as the current one I a
 To change the amount of hours to collect the data, change the integer value named hours on line 20.
 
 ### Implementation
-
+For this problem I had a timeController portion that dealt with managing the sleeps to simulate the threads performing operations every minute for the 1 hour interval. I used the Thread.sleep() method within the main thread set to a 20 milisecond timer to simulate this 1 minute wait. The problem was able to parse the data that was randomly generated within the threads. Each thread is one sensor and after every iteration they randomly pick a value between -100 and 70 for the temperature sensor to read out. After this is done the data is stored and parsed to find the top5 values, bottom5 values and the biggest temperature difference.
+The amount of data calculated can be adjusted by hour intervals by changing the integer value within the code. The data is also stored in a 2d array that is seperated by thread ID or temperature sensor and minutes so each second has a value for each ID. this guarantees that each ID or thread outputs a value for each minute within the hour
 
 
 ### Efficiency
-
+The programm is able to efficiently parse the data with a runtime of 9s with the simulated wait time for a 5 hour block. Each thread is assigned and ID and that is the only place they will be able to adjust the data in the 2d array that is being used to manipulate the data this guarantees mutual exclusion.
 
 
 ## Citations
